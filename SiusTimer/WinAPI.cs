@@ -4,16 +4,6 @@ namespace SiusTimer
 {
     public static class WinAPI
     {
-        public delegate bool WindowEnumProc(IntPtr hwnd, IntPtr lparam);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumChildWindows(
-            IntPtr hwnd,
-            WindowEnumProc callback,
-            IntPtr lParam
-        );
-
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindowEx(
             IntPtr parentHandle,
