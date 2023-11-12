@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program name="10m PISTOL MEN">
+  <group id="PREPARATION">
+    <!-- set timer to 15 minutes -->
+    <step sound="ATHLETES TO THE LINE"/>
+    <step sound="PREPARATION AND SIGHTING TIME – START" wait="00:14:30" timer="00:15:00"/>
+    <step sound="30 SECONDS" wait="00:00:30"/>
+    <step sound="END OF PREPARATION AND SIGHTING TIME – STOP"/>
+  </group>
+  <group id="MATCH">
+    <!-- set timer to 90 minutes -->
+    <step sound="MATCH FIRING – START" wait="01:05:00" timer="01:15:00"/>
+    <step sound="10 MINUTES" wait="00:05:00"/>
+    <step sound="5 MINUTES" wait="00:05:00"/>
+    <step sound="STOP - UNLOAD"/>
+  </group>
+</program>

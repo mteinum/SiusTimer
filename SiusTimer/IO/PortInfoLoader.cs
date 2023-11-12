@@ -2,7 +2,7 @@
 using System.Management;
 using System.Windows.Forms.Design;
 
-namespace SiusTimer
+namespace SiusTimer.IO
 {
     public static class PortInfoExt
     {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program name="25m RAPID FIRE PISTOL MEN">
+  <group id="PREPARATION">
+    <step sound="PREPARATION TIME BEGINS NOW" wait="00:03:00"/>
+  </group>
+  <group id="SIGHTING">
+    <step sound="8 SECONDS - SIGHTING SERIES - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+  <group id="8 seconds" repeat="2">
+    <step sound="8 SECONDS - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+  <group id="6 seconds" repeat="2">
+    <step sound="6 SECONDS - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+  <group id="4 seconds" repeat="2">
+    <step sound="4 SECONDS - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+</program>

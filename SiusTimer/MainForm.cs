@@ -7,6 +7,8 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Runtime.InteropServices;
 using SiusTimer.Model;
+using SiusTimer.Audio;
+using SiusTimer.IO;
 
 namespace SiusTimer
 {
@@ -94,26 +96,44 @@ namespace SiusTimer
 
             foreach (var group in program.Groups)
             {
-                var id = group.Id;
-
-                foreach (var step in group.Steps)
-                {
-                    var lvi = new ListViewItem(
+                listViewProgram.Items.Add(
+                    new ListViewItem(
                         new string[]
                         {
-                            id,
-                            step.Sound,
-                            step.DelaySeconds,
-                            step.Light,
-                            step.Timer,
-                            group.Repeat.ToString()
+                            group.Id,
+                            string.Empty,
+                            string.Empty,
+                            string.Empty,
+                            string.Empty,
+                            group.Repeat.ToString(),
+                            "0"
                         }
                     )
                     {
-                        Tag = step
-                    };
+                        Tag = group,
+                        BackColor = Color.LightYellow
+                    }
+                );
 
-                    listViewProgram.Items.Add(lvi);
+                foreach (var step in group.Steps)
+                {
+                    listViewProgram.Items.Add(
+                        new ListViewItem(
+                            new string[]
+                            {
+                                string.Empty,
+                                step.Sound,
+                                step.Wait?.ToString(),
+                                step.Light,
+                                step.Timer?.ToString(),
+                                string.Empty,
+                                string.Empty,
+                            }
+                        )
+                        {
+                            Tag = step
+                        }
+                    );
                 }
             }
 
@@ -135,18 +155,7 @@ namespace SiusTimer
 
         private void buttonContinue_Click(object sender, EventArgs e)
         {
-            // find selected, toggle with next
-            for (int i = 0; i < listViewProgram.Items.Count - 1; i++)
-            {
-                if (listViewProgram.Items[i].Selected)
-                {
-                    listViewProgram.Items[i].Selected = false;
-                    listViewProgram.Items[i + 1].Selected = true;
-                    break;
-                }
-            }
-
-            Run();
+            ProgramDone(GetSelectedListViewItem());
         }
 
         CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -166,6 +175,54 @@ namespace SiusTimer
             }
         }
 
+        private void ProgramDone(ListViewItem lvi)
+        {
+            var next = lvi.GetNextListViewItem();
+
+            if (next != null && next.IsStep())
+            {
+                next.SetSelected();
+                Run();
+            }
+            else
+            {
+                var nextGroup = next;
+                // group
+                // is the current group complete?
+                var currentGroup = lvi.GetGroupForStep();
+
+                // check repeat
+                var repeat = int.Parse(currentGroup.SubItems[5].Text);
+                var times = int.Parse(currentGroup.SubItems[6].Text) + 1;
+
+                // update group
+                currentGroup.SubItems[6].Text = times.ToString();
+
+                if (times < repeat)
+                {
+                    currentGroup.SetSelected();
+                    Run();
+                }
+                else if (nextGroup != null)
+                {
+                    nextGroup.SetSelected();
+                }
+                // else repeat == 0, manual change light
+            }
+        }
+
+        private ListViewItem GetSelectedListViewItem()
+        {
+            foreach (ListViewItem lvi in listViewProgram.Items)
+            {
+                if (lvi.Selected)
+                {
+                    return lvi;
+                }
+            }
+            return null;
+        }
+
         private void Run()
         {
             StopRunningTask();
@@ -173,35 +230,19 @@ namespace SiusTimer
             tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
 
-            foreach (ListViewItem lvi in listViewProgram.Items)
+            var lvi = GetSelectedListViewItem();
+
+            if (lvi == null)
+                return;
+
+            if (lvi.IsGroup())
             {
-                if (lvi.Selected)
-                {
-                    runningTask = Task.Run(() => Run((Step)lvi.Tag, token), token);
-                }
+                lvi = lvi.FirstStepInGroup();
             }
-        }
 
-        private void ProgramDone()
-        {
-            // check if the next program is in the same group, then run that
-            for (int i = 0; i < listViewProgram.Items.Count - 1; i++)
-            {
-                if (listViewProgram.Items[i].Selected)
-                {
-                    var group = listViewProgram.Items[i].Text;
+            lvi.SetSelected();
 
-                    if (listViewProgram.Items[i + 1].Text == group)
-                    {
-                        listViewProgram.Items[i].Selected = false;
-                        listViewProgram.Items[i + 1].Selected = true;
-
-                        Run();
-                    }
-
-                    break;
-                }
-            }
+            runningTask = Task.Run(() => RunStep(lvi, token), token);
         }
 
         private void SetLabelTimer(TimeSpan ts, CancellationToken token)
@@ -216,24 +257,23 @@ namespace SiusTimer
             });
         }
 
-        private async Task Run(Step step, CancellationToken token)
+        private async Task RunStep(ListViewItem lvi, CancellationToken token)
         {
+            var step = lvi.Step();
+
+            TimeSpan stepDuration = checkBoxFast.Checked
+                ? TimeSpan.FromMilliseconds(100)
+                : TimeSpan.FromSeconds(1);
+
             try
             {
                 SetLabelTimer(TimeSpan.FromSeconds(0), token);
 
-                var resourceName = $"SiusTimer.Audio.en.{step.Sound}.wav";
+                Speaker.Annonce(step.Sound);
 
-                using (
-                    var stream = typeof(MainForm).Assembly.GetManifestResourceStream(resourceName)
-                )
+                if (step.Timer.HasValue)
                 {
-                    var soundPlayer = new SoundPlayer(stream);
-                    soundPlayer.PlaySync();
-                }
-
-                if (step.Timer != null)
-                {
+                    siusData.Reset();
                     siusData.Start();
                 }
 
@@ -242,18 +282,20 @@ namespace SiusTimer
                     await Tcu25PressButton(serialPort, token).ConfigureAwait(false);
                 }
 
-                if (step.DelaySeconds != null && int.TryParse(step.DelaySeconds, out var seconds))
+                if (step.Wait.HasValue)
                 {
+                    int seconds = (int)step.Wait.Value.TotalSeconds;
+
                     do
                     {
                         SetLabelTimer(TimeSpan.FromSeconds(seconds), token);
 
-                        await Task.Delay(TimeSpan.FromSeconds(1), token).ConfigureAwait(false);
+                        await Task.Delay(stepDuration, token).ConfigureAwait(false);
 
                         seconds--;
                     } while (seconds >= 0 && !token.IsCancellationRequested);
 
-                    BeginInvoke(new MethodInvoker(ProgramDone));
+                    BeginInvoke(() => ProgramDone(lvi));
                 }
             }
             catch (TaskCanceledException)
@@ -264,6 +306,21 @@ namespace SiusTimer
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void testSetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            siusData.Set(TimeSpan.FromMinutes(1));
+        }
+
+        private void testResetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            siusData.Reset();
+        }
+
+        private void testStartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            siusData.Start();
         }
     }
 }

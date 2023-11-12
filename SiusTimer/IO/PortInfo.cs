@@ -1,4 +1,4 @@
-﻿namespace SiusTimer
+﻿namespace SiusTimer.IO
 {
     public class PortInfo
     {

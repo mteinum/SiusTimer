@@ -2,26 +2,26 @@
 <program name="25m STANDARD PISTOL">
   <!-- UI: start (counter) / next group -->
   <group id="PREPARATION">
-    <step sound="PREPARATION TIME BEGINS NOW" delay-seconds="150"/>
+    <step sound="PREPARATION TIME BEGINS NOW" wait="00:05:00"/>
   </group>
   <group id="SIGHTING">
-    <step sound="150 SECONDS - SIGHTING SERIES - LOAD" delay-seconds="60" timer="start"/>
-    <step sound="ATTENTION" delay-seconds="wait" light="on"/>
-    <step sound="UNLOAD" delay-seconds="60"/>
+    <step sound="150 SECONDS - SIGHTING SERIES - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
   </group>
   <group id="150s" repeat="4">
-    <step sound="150 SECONDS - LOAD" delay-seconds="60" timer="start"/>
-    <step sound="ATTENTION" delay-seconds="wait" light="on"/>
-    <step sound="UNLOAD" delay-seconds="60"/>
+    <step sound="150 SECONDS - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
   </group>
   <group id="20s" repeat="4">
-    <step sound="20 SECONDS - LOAD" delay-seconds="60" timer="start"/>
-    <step sound="ATTENTION" delay-seconds="wait" light="on"/>
-    <step sound="UNLOAD" delay-seconds="60"/>
+    <step sound="20 SECONDS - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
   </group>
   <group id="10s" repeat="4">
-    <step sound="10 SECONDS - LOAD" delay-seconds="60" timer="start"/>
-    <step sound="ATTENTION" delay-seconds="wait" light="on"/>
-    <step sound="UNLOAD" delay-seconds="60"/>
+    <step sound="10 SECONDS - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
   </group>
 </program>

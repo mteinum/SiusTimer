@@ -4,6 +4,7 @@ namespace SiusTimer
 {
     public class SiusData
     {
+        private IntPtr StartButton { get; set; }
         private IntPtr SetButton { get; set; }
         private IntPtr ResetButton { get; set; }
 
@@ -28,15 +29,26 @@ namespace SiusTimer
                 String.Empty
             );
 
-            SetButton = WinAPI.FindWindowEx(dialog, IntPtr.Zero, "Button", "Start");
+            SetButton = WinAPI.FindWindowEx(dialog, IntPtr.Zero, "Button", "Set");
+            StartButton = WinAPI.FindWindowEx(dialog, IntPtr.Zero, "Button", "Start");
             ResetButton = WinAPI.FindWindowEx(dialog, IntPtr.Zero, "Button", "Reset");
 
             return true;
         }
 
+        internal void Set(TimeSpan duration)
+        {
+            WinAPI.SendMessage(SetButton, WinAPI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        internal void Reset()
+        {
+            WinAPI.SendMessage(ResetButton, WinAPI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+        }
+
         internal void Start()
         {
-            //
+            WinAPI.SendMessage(StartButton, WinAPI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
         }
     }
 }

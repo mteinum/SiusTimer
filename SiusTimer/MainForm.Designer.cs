@@ -1,4 +1,6 @@
-﻿namespace SiusTimer
+﻿using SiusTimer.IO;
+
+namespace SiusTimer
 {
     partial class MainForm
     {
@@ -28,7 +30,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabelArduino = new ToolStripStatusLabel();
             toolStripStatusLabelSiusData = new ToolStripStatusLabel();
@@ -38,22 +39,26 @@
             exitToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem1 = new ToolStripMenuItem();
+            siusDataToolStripMenuItem = new ToolStripMenuItem();
+            testSetToolStripMenuItem = new ToolStripMenuItem();
+            testResetToolStripMenuItem = new ToolStripMenuItem();
+            testStartToolStripMenuItem = new ToolStripMenuItem();
             labelTimer = new Label();
             comboBoxPrograms = new ComboBox();
             buttonProgramLoad = new Button();
-            bindingSource1 = new BindingSource(components);
             listViewProgram = new ListView();
             columnHeaderGroup = new ColumnHeader();
             columnHeaderSound = new ColumnHeader();
-            columnHeaderDelaySeconds = new ColumnHeader();
+            columnHeaderWait = new ColumnHeader();
             columnHeaderLight = new ColumnHeader();
             columnHeaderTimer = new ColumnHeader();
+            columnHeaderRepeat = new ColumnHeader();
+            columnHeaderTimes = new ColumnHeader();
             buttonStart = new Button();
             buttonContinue = new Button();
-            columnHeaderRepeat = new ColumnHeader();
+            checkBoxFast = new CheckBox();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
             // statusStrip1
@@ -79,7 +84,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, aboutToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, aboutToolStripMenuItem, siusDataToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1161, 24);
@@ -96,14 +101,14 @@
             // testTCU25ToolStripMenuItem
             // 
             testTCU25ToolStripMenuItem.Name = "testTCU25ToolStripMenuItem";
-            testTCU25ToolStripMenuItem.Size = new Size(130, 22);
+            testTCU25ToolStripMenuItem.Size = new Size(180, 22);
             testTCU25ToolStripMenuItem.Text = "&Test TCU25";
             testTCU25ToolStripMenuItem.Click += testTCU25ToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(130, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "E&xit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -117,18 +122,52 @@
             // aboutToolStripMenuItem1
             // 
             aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            aboutToolStripMenuItem1.Size = new Size(107, 22);
+            aboutToolStripMenuItem1.Size = new Size(180, 22);
             aboutToolStripMenuItem1.Text = "&About";
+            // 
+            // siusDataToolStripMenuItem
+            // 
+            siusDataToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { testSetToolStripMenuItem, testResetToolStripMenuItem, testStartToolStripMenuItem });
+            siusDataToolStripMenuItem.Name = "siusDataToolStripMenuItem";
+            siusDataToolStripMenuItem.Size = new Size(67, 20);
+            siusDataToolStripMenuItem.Text = "&Sius Data";
+            // 
+            // testSetToolStripMenuItem
+            // 
+            testSetToolStripMenuItem.Name = "testSetToolStripMenuItem";
+            testSetToolStripMenuItem.Size = new Size(180, 22);
+            testSetToolStripMenuItem.Text = "Test Set";
+            testSetToolStripMenuItem.Click += testSetToolStripMenuItem_Click;
+            // 
+            // testResetToolStripMenuItem
+            // 
+            testResetToolStripMenuItem.Name = "testResetToolStripMenuItem";
+            testResetToolStripMenuItem.Size = new Size(180, 22);
+            testResetToolStripMenuItem.Text = "Test Reset";
+            testResetToolStripMenuItem.Click += testResetToolStripMenuItem_Click;
+            // 
+            // testStartToolStripMenuItem
+            // 
+            testStartToolStripMenuItem.Name = "testStartToolStripMenuItem";
+            testStartToolStripMenuItem.Size = new Size(180, 22);
+            testStartToolStripMenuItem.Text = "Test Start";
+            testStartToolStripMenuItem.Click += testStartToolStripMenuItem_Click;
             // 
             // labelTimer
             // 
             labelTimer.AutoSize = true;
-            labelTimer.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            labelTimer.Location = new Point(967, 38);
+            labelTimer.BackColor = Color.Black;
+            labelTimer.FlatStyle = FlatStyle.Popup;
+            labelTimer.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point);
+            labelTimer.ForeColor = Color.Yellow;
+            labelTimer.Location = new Point(934, 38);
+            labelTimer.Margin = new Padding(3);
             labelTimer.Name = "labelTimer";
-            labelTimer.Size = new Size(112, 32);
+            labelTimer.Padding = new Padding(5);
+            labelTimer.Size = new Size(145, 50);
             labelTimer.TabIndex = 11;
             labelTimer.Text = "00:00:00";
+            labelTimer.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // comboBoxPrograms
             // 
@@ -148,18 +187,14 @@
             buttonProgramLoad.UseVisualStyleBackColor = true;
             buttonProgramLoad.Click += buttonProgramLoad_Click;
             // 
-            // bindingSource1
-            // 
-            bindingSource1.DataSource = typeof(PortInfo);
-            // 
             // listViewProgram
             // 
-            listViewProgram.Columns.AddRange(new ColumnHeader[] { columnHeaderGroup, columnHeaderSound, columnHeaderDelaySeconds, columnHeaderLight, columnHeaderTimer, columnHeaderRepeat });
+            listViewProgram.Columns.AddRange(new ColumnHeader[] { columnHeaderGroup, columnHeaderSound, columnHeaderWait, columnHeaderLight, columnHeaderTimer, columnHeaderRepeat, columnHeaderTimes });
             listViewProgram.FullRowSelect = true;
             listViewProgram.GridLines = true;
             listViewProgram.Location = new Point(12, 102);
             listViewProgram.Name = "listViewProgram";
-            listViewProgram.Size = new Size(1067, 395);
+            listViewProgram.Size = new Size(1120, 511);
             listViewProgram.TabIndex = 14;
             listViewProgram.UseCompatibleStateImageBehavior = false;
             listViewProgram.View = View.Details;
@@ -175,10 +210,10 @@
             columnHeaderSound.Text = "Sound";
             columnHeaderSound.Width = 300;
             // 
-            // columnHeaderDelaySeconds
+            // columnHeaderWait
             // 
-            columnHeaderDelaySeconds.Text = "Delay Seconds";
-            columnHeaderDelaySeconds.Width = 100;
+            columnHeaderWait.Text = "Wait";
+            columnHeaderWait.Width = 100;
             // 
             // columnHeaderLight
             // 
@@ -187,7 +222,15 @@
             // 
             // columnHeaderTimer
             // 
-            columnHeaderTimer.Text = "TImer";
+            columnHeaderTimer.Text = "Timer";
+            // 
+            // columnHeaderRepeat
+            // 
+            columnHeaderRepeat.Text = "Repeat";
+            // 
+            // columnHeaderTimes
+            // 
+            columnHeaderTimes.Text = "Times";
             // 
             // buttonStart
             // 
@@ -209,15 +252,22 @@
             buttonContinue.UseVisualStyleBackColor = true;
             buttonContinue.Click += buttonContinue_Click;
             // 
-            // columnHeaderRepeat
+            // checkBoxFast
             // 
-            columnHeaderRepeat.Text = "Repeat";
+            checkBoxFast.AutoSize = true;
+            checkBoxFast.Location = new Point(1085, 51);
+            checkBoxFast.Name = "checkBoxFast";
+            checkBoxFast.Size = new Size(47, 19);
+            checkBoxFast.TabIndex = 17;
+            checkBoxFast.Text = "Fast";
+            checkBoxFast.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1161, 652);
+            Controls.Add(checkBoxFast);
             Controls.Add(buttonContinue);
             Controls.Add(buttonStart);
             Controls.Add(listViewProgram);
@@ -229,13 +279,13 @@
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "MainForm";
+            SizeGripStyle = SizeGripStyle.Hide;
             Text = "SiusTimer - morten@teinum.no";
             Load += MainForm_Load;
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -255,15 +305,20 @@
         private Label labelTimer;
         private ComboBox comboBoxPrograms;
         private Button buttonProgramLoad;
-        private BindingSource bindingSource1;
         private ListView listViewProgram;
         private ColumnHeader columnHeaderSound;
-        private ColumnHeader columnHeaderDelaySeconds;
+        private ColumnHeader columnHeaderWait;
         private ColumnHeader columnHeaderLight;
         private ColumnHeader columnHeaderTimer;
         private ColumnHeader columnHeaderGroup;
         private Button buttonStart;
         private Button buttonContinue;
         private ColumnHeader columnHeaderRepeat;
+        private CheckBox checkBoxFast;
+        private ColumnHeader columnHeaderTimes;
+        private ToolStripMenuItem siusDataToolStripMenuItem;
+        private ToolStripMenuItem testSetToolStripMenuItem;
+        private ToolStripMenuItem testResetToolStripMenuItem;
+        private ToolStripMenuItem testStartToolStripMenuItem;
     }
 }

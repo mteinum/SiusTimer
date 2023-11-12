@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<program name="25m PISTOL RFS">
+  <group id="PREPARATION">
+    <step sound="PREPARATION TIME BEGINS NOW" wait="00:03:00"/>
+  </group>
+  <group id="SIGHTING">
+    <step sound="SIGHTING SERIES - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+  <group id="S1">
+    <step sound="FIRST SERIES - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+  <group id="S2-S6" repeat="5">
+    <step sound="NEXT SERIES - LOAD" wait="00:01:00" timer="00:01:00"/>
+    <step sound="ATTENTION" light="on"/>
+    <step sound="UNLOAD" wait="00:01:00"/>
+  </group>
+</program>

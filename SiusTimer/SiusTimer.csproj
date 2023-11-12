@@ -6,6 +6,7 @@
     <!--<Nullable>enable</Nullable>-->
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifiers>win10-x86</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
@@ -64,13 +65,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Programs\10m.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\25m PISTOL RFS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\25m PISTOL PRECISION.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\rfp.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Programs\standard.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Programs\50m.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\DataSources\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
