@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiusTimer", "SiusTimer\SiusTimer.csproj", "{88A4192A-F8A2-4FEC-A3EC-41FCB941104D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88A4192A-F8A2-4FEC-A3EC-41FCB941104D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A4192A-F8A2-4FEC-A3EC-41FCB941104D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A4192A-F8A2-4FEC-A3EC-41FCB941104D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A4192A-F8A2-4FEC-A3EC-41FCB941104D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD389826-6236-44EF-86C5-73CDD2A85446}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <!--<Nullable>enable</Nullable>-->
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Audio\en\10 MINUTES.wav" />
+    <None Remove="Audio\en\10 SECONDS - LOAD.wav" />
+    <None Remove="Audio\en\150 SECONDS - LOAD.wav" />
+    <None Remove="Audio\en\150 SECONDS - SIGHTING SERIES - LOAD.wav" />
+    <None Remove="Audio\en\20 SECONDS - LOAD.wav" />
+    <None Remove="Audio\en\30 SECONDS.wav" />
+    <None Remove="Audio\en\4 SECONDS - LOAD.wav" />
+    <None Remove="Audio\en\5 MINUTES.wav" />
+    <None Remove="Audio\en\6 SECONDS - LOAD.wav" />
+    <None Remove="Audio\en\8 SECONDS - LOAD.wav" />
+    <None Remove="Audio\en\8 SECONDS - SIGHTING SERIES - LOAD.wav" />
+    <None Remove="Audio\en\ATHLETES TO THE LINE.wav" />
+    <None Remove="Audio\en\ATTENTION.wav" />
+    <None Remove="Audio\en\END OF PREPARATION AND SIGHTING TIME – STOP.wav" />
+    <None Remove="Audio\en\FIRST SERIES - LOAD.wav" />
+    <None Remove="Audio\en\MATCH FIRING – START.wav" />
+    <None Remove="Audio\en\NEXT SERIES - LOAD.wav" />
+    <None Remove="Audio\en\PREPARATION AND SIGHTING TIME – START.wav" />
+    <None Remove="Audio\en\PREPARATION TIME BEGINS NOW.wav" />
+    <None Remove="Audio\en\SIGHTING SERIES - LOAD.wav" />
+    <None Remove="Audio\en\STOP - UNLOAD.wav" />
+    <None Remove="Audio\en\UNLOAD.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Audio\en\10 MINUTES.wav" />
+    <EmbeddedResource Include="Audio\en\10 SECONDS - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\150 SECONDS - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\150 SECONDS - SIGHTING SERIES - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\20 SECONDS - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\30 SECONDS.wav" />
+    <EmbeddedResource Include="Audio\en\4 SECONDS - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\5 MINUTES.wav" />
+    <EmbeddedResource Include="Audio\en\6 SECONDS - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\8 SECONDS - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\8 SECONDS - SIGHTING SERIES - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\ATHLETES TO THE LINE.wav" />
+    <EmbeddedResource Include="Audio\en\ATTENTION.wav" />
+    <EmbeddedResource Include="Audio\en\END OF PREPARATION AND SIGHTING TIME – STOP.wav" />
+    <EmbeddedResource Include="Audio\en\FIRST SERIES - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\MATCH FIRING – START.wav" />
+    <EmbeddedResource Include="Audio\en\NEXT SERIES - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\PREPARATION AND SIGHTING TIME – START.wav" />
+    <EmbeddedResource Include="Audio\en\PREPARATION TIME BEGINS NOW.wav" />
+    <EmbeddedResource Include="Audio\en\SIGHTING SERIES - LOAD.wav" />
+    <EmbeddedResource Include="Audio\en\STOP - UNLOAD.wav" />
+    <EmbeddedResource Include="Audio\en\UNLOAD.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Programs\standard.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+
+</Project>
